@@ -1,14 +1,21 @@
 workflow "Build and Push" {
-  resolves = ["Docker Registry"]
   on = "push"
+  resolves = ["Docker Push"]
 }
 
-action "GitHub Action for Docker" {
-  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+action "Docker Build" {
+  uses = "actions/docker/cli@master"
+  args = "build -t tpolekhin/goserve200:latest ."
 }
 
 action "Docker Registry" {
-  uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["GitHub Action for Docker"]
+  uses = "actions/docker/login@master"
+  needs = ["Docker Build"]
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
+}
+
+action "Docker Push" {
+  uses = "actions/docker/cli@master"
+  args = "push tpolekhin/goserve200:latest"
+  needs = ["Docker Registry"]
 }
