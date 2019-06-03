@@ -1,5 +1,5 @@
 FROM golang:onbuild
-MAINTAINER Tymofii Poliekhin <tpolekhin@gmail.com>
+MAINTAINER Tymofii Polekhin <tpolekhin@gmail.com>
 
 LABEL io.k8s.description="Simple Go HTTP/1.1 Server replying 200" \
       io.k8s.display-name="goserve200" \
